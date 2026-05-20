@@ -62,6 +62,7 @@ Make sure you have Node.js (v18+) installed.
    ```
 
 ---
+Local link :http://localhost:5173/
 
 ## 🎨 Design System
 
@@ -75,5 +76,4 @@ Make sure you have Node.js (v18+) installed.
 
 ---
 
-## 📄 License
-This project is licensed under the MIT License. Created with passion for design-forward botanical tech. 🌱
+Made my Hafsa 
