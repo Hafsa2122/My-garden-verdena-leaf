@@ -439,7 +439,6 @@ type CareGuidePageProps = {
 
 function AboutPage({ onNavigate }: CareGuidePageProps) {
   const [activeYear, setActiveYear] = useState<keyof typeof TIMELINE_DATA>("2026");
-  const [expandedMember, setExpandedMember] = useState<string | null>("Marcus Vance");
 
   return (
     <motion.section
@@ -1856,7 +1855,7 @@ function IdentifyPage({ onNavigate, config }: { config: PageConfig, onNavigate: 
           <div className="glass-strong rounded-[28px] p-6 sm:p-8 h-full flex flex-col">
             <h3 className="text-2xl text-white mb-6" style={{ fontFamily: "Playfair Display, serif", fontWeight: 600 }}>Select Specimen</h3>
             <div className="space-y-3">
-              {[CARE_SPECIMENS[0], CARE_SPECIMENS[1], CARE_SPECIMENS[2], CARE_SPECIMENS[3], CARE_SPECIMENS[4], CARE_SPECIMENS[5], CARE_SPECIMENS[6]].map((plant, i) => (
+              {[CARE_SPECIMENS[0], CARE_SPECIMENS[1], CARE_SPECIMENS[2], CARE_SPECIMENS[3], CARE_SPECIMENS[4], CARE_SPECIMENS[5], CARE_SPECIMENS[6]].map((plant) => (
                 <motion.button
                   key={plant.name}
                   onClick={() => startScan(plant)}
