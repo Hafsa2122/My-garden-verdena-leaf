@@ -132,7 +132,7 @@ const PAGE_CONFIG: Record<Exclude<PageKey, "home">, PageConfig> = {
       { icon: Users, title: "Community safety", text: "Moderated rooms keep advice useful, calm, and kind." },
     ],
     panelTitle: "Popular Questions",
-    panelRows: ["Can I add multiple rooms?", "Does it work offline?", "How accurate is plant ID?"],
+    panelRows: ["Can I add multiple rooms?", "Does it work offline?", "How accurate is plant ID?", "Can I track multiple plants?", "How do I set watering reminders?", "Is my plant data private?", "What happens if I miss a watering?", "Are plant diagnostics free?"],
   },
   identify: {
     eyebrow: "VERDANA / INTELLIGENT SCAN",
@@ -496,6 +496,30 @@ function AboutPage({ onNavigate }: CareGuidePageProps) {
             Verdana bridges scientific botany, double-walled porous engineering, and calm technology. We believe green living spaces build clearer minds and healthier routines.
           </motion.p>
 
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.34 }}
+            className="mt-8 flex gap-3"
+          >
+            <motion.button
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              onClick={() => onNavigate("community")}
+              className="rounded-full bg-[#a7c98a] px-6 py-2.5 text-[13px] font-bold text-[#07110d] shadow-[0_10px_30px_rgba(167,201,138,0.25)]"
+            >
+              Join Community
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              onClick={() => onNavigate("care")}
+              className="glass rounded-full px-6 py-2.5 text-[13px] font-semibold text-[#d8e0d2] hover:text-white"
+            >
+              Explore Features
+            </motion.button>
+          </motion.div>
+
           <div className="mt-12 flex gap-8 border-b border-white/10 pb-4">
             {(Object.keys(TIMELINE_DATA) as (keyof typeof TIMELINE_DATA)[]).map((year) => (
               <button
@@ -539,79 +563,90 @@ function AboutPage({ onNavigate }: CareGuidePageProps) {
             initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
-            className="glass-strong sticky top-40 rounded-[32px] p-6 sm:p-8"
+            className="glass-strong sticky top-40 rounded-[20px] p-5 max-w-sm"
           >
-            <h3 className="text-3xl text-white" style={{ fontFamily: "Playfair Display, serif", fontWeight: 600 }}>
-              Meet the Team
+            <span className="inline-block rounded-full bg-[#a7c98a]/15 px-3 py-1 text-[9px] font-bold tracking-widest text-[#a7c98a] ring-1 ring-[#a7c98a]/25 uppercase">
+              Current team
+            </span>
+            <h3 className="mt-3 text-lg font-semibold text-white" style={{ fontFamily: "Playfair Display, serif" }}>
+              Focused, cross-functional core
             </h3>
+            <p className="mt-1.5 text-[11px] leading-relaxed text-[#9aa79a]">
+              A compact team handling botanical research, design engineering, and calm tech architecture.
+            </p>
 
-            <div className="mt-8 space-y-4">
-              {TEAM_MEMBERS.map((member, i) => {
-                const isExpanded = expandedMember === member.name;
-                return (
-                  <motion.div
-                    key={member.name}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 + i * 0.1 }}
-                    className="group relative"
-                  >
-                    <motion.button
-                      onClick={() => setExpandedMember(isExpanded ? null : member.name)}
-                      className={`flex w-full items-center gap-4 rounded-2xl p-4 ring-1 transition-all ${
-                        isExpanded 
-                          ? "bg-white/[0.08] ring-[#a7c98a]/30" 
-                          : "bg-white/[0.03] ring-white/10 hover:bg-white/[0.06]"
-                      }`}
-                    >
-                      <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full ring-2 ring-white/10">
-                        <img src={member.avatar} alt={member.name} className="h-full w-full object-cover" />
-                      </div>
-                      <div className="flex-1 text-left">
-                        <h4 className="text-[15px] font-semibold text-white">{member.name}</h4>
-                        <p className="text-[12px] text-[#9aa79a]">{member.role}</p>
-                      </div>
-                      <span className={`rounded-md bg-white/5 px-2 py-1 text-[10px] font-bold tracking-widest ring-1 ring-white/10 uppercase transition-colors ${isExpanded ? "text-white bg-[#a7c98a]/20" : "text-[#9aa79a]"}`}>
-                        {isExpanded ? "Close" : "Info"}
-                      </span>
-                    </motion.button>
-                    
-                    <AnimatePresence>
-                      {isExpanded && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: "easeInOut" }}
-                          className="overflow-hidden"
-                        >
-                          <p className="mt-3 px-4 text-[12.5px] leading-relaxed text-[#d8e0d2] border-l-2 border-[#a7c98a]/30 ml-6">
-                            {member.desc}
-                          </p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                );
-              })}
+            <div className="mt-4 grid grid-cols-2 gap-2.5">
+              <div className="rounded-xl bg-white/[0.03] p-3 text-center ring-1 ring-white/5">
+                <p className="text-2xl font-bold text-white">3</p>
+                <p className="mt-0.5 text-[9px] tracking-wider text-[#9aa79a] uppercase">Team Members</p>
+              </div>
+              <div className="rounded-xl bg-white/[0.03] p-3 text-center ring-1 ring-white/5">
+                <p className="text-2xl font-bold text-white">4</p>
+                <p className="mt-0.5 text-[9px] tracking-wider text-[#9aa79a] uppercase">Core Domains</p>
+              </div>
             </div>
 
-            <div className="mt-8 rounded-2xl bg-[#a7c98a]/5 p-4 ring-1 ring-[#a7c98a]/20">
-              <p className="text-[12px] leading-relaxed text-[#cfe2b8]">
-                <span className="font-bold text-[#a7c98a]">★ SECRET TIP FOR: FIDDLE LEAF FIG</span>
-                <br />
-                Ficus lyrata hates drafts and sudden position shifts. Find its perfect light spot and let it anchor there permanently.
-              </p>
-            </div>
-
-            <div className="mt-8 flex justify-center border-t border-white/5 pt-6">
-              <p className="flex items-center gap-2 text-[11px] italic text-[#9aa79a]">
-                <Heart className="h-3 w-3 text-[#a7c98a]/60" /> Crafting premium plant atmospheres daily.
-              </p>
+            <div className="mt-4 border-t border-white/5 pt-4">
+              <p className="text-[10px] font-bold tracking-widest text-[#9aa79a] uppercase">Team Strengths</p>
+              <ul className="mt-2 space-y-1.5">
+                {[
+                  "Botanical research & leaf diagnostics",
+                  "Luxury design systems and interiors",
+                  "Calm tech architecture & scalable ops",
+                  "AI-powered plant identification"
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-2 text-[11px] text-[#d8e0d2]">
+                    <Check className="h-3 w-3 shrink-0 text-[#a7c98a]" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
           </motion.div>
         </div>
       </div>
+
+      {/* People and Roles Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className="mt-20"
+      >
+        <span className="inline-block rounded-full bg-[#a7c98a]/10 px-3 py-1 text-[9px] font-bold tracking-widest text-[#a7c98a] ring-1 ring-[#a7c98a]/20 uppercase">
+          Team Directory
+        </span>
+        <h3 className="mt-4 text-3xl font-semibold text-white" style={{ fontFamily: "Playfair Display, serif" }}>
+          People and roles
+        </h3>
+        <p className="mt-2 text-[14px] text-[#9aa79a]">
+          The current team structure at Verdana.
+        </p>
+
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {TEAM_MEMBERS.map((member, i) => (
+            <motion.div
+              key={member.name}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 + i * 0.1 }}
+              className="glass-strong flex flex-col items-center rounded-[24px] p-6 text-center"
+            >
+              <div className="h-20 w-20 overflow-hidden rounded-full ring-2 ring-white/10">
+                <img src={member.avatar} alt={member.name} className="h-full w-full object-cover" />
+              </div>
+              <h4
+                className="mt-4 text-[16px] font-semibold text-white"
+                style={{ fontFamily: "Playfair Display, serif" }}
+              >
+                {member.name}
+              </h4>
+              <p className="mt-1 text-[12px] font-medium text-[#a7c98a]">{member.role}</p>
+              <p className="mt-3 text-[12px] leading-relaxed text-[#9aa79a]">{member.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
     </motion.section>
   );
 }
@@ -648,8 +683,8 @@ function CareGuidePage({ onNavigate }: CareGuidePageProps) {
         Back to Home
       </motion.button>
 
-      <div className="grid gap-12 lg:grid-cols-12">
-        <div className="lg:col-span-7">
+      <div className={`grid gap-12 ${selectedPlant ? "lg:grid-cols-12" : "grid-cols-1"}`}>
+        <div className={selectedPlant ? "lg:col-span-7" : "w-full"}>
           <div className="max-w-4xl">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
@@ -717,9 +752,34 @@ function CareGuidePage({ onNavigate }: CareGuidePageProps) {
             })}
           </motion.div>
 
+          {!selectedPlant && (
+            <motion.div
+              key="empty"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="glass mt-10 flex flex-col md:flex-row items-center gap-6 rounded-[24px] p-6 text-left w-full"
+            >
+              <div className="relative shrink-0">
+                <div className="absolute -inset-3 rounded-full bg-[#a7c98a]/10 blur-lg animate-pulse" />
+                <div className="glass relative grid h-12 w-12 place-items-center rounded-xl bg-white/[0.03] ring-1 ring-white/10">
+                  <ScanLine className="h-5 w-5 text-[#a7c98a]/50" />
+                </div>
+              </div>
+              <div>
+                <h3 className="text-lg font-medium text-white" style={{ fontFamily: "Playfair Display, serif" }}>Select a Specimen</h3>
+                <p className="mt-1 text-[13px] leading-relaxed text-[#9aa79a]">
+                  Click on any plant in the clinic gallery to load its real-time care parameters and diagnostics.
+                </p>
+              </div>
+            </motion.div>
+          )}
+
           <motion.div
             layout
-            className="mt-10 grid gap-7 sm:grid-cols-2 xl:grid-cols-2"
+            className={`mt-10 grid gap-7 sm:grid-cols-2 ${
+              selectedPlant ? "xl:grid-cols-2" : "lg:grid-cols-3"
+            }`}
           >
             {visibleSpecimens.map((plant, index) => {
               const active = selected === plant.name;
@@ -796,59 +856,40 @@ function CareGuidePage({ onNavigate }: CareGuidePageProps) {
           </motion.div>
         </div>
 
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-5 lg:sticky lg:top-24 lg:self-start">
           <AnimatePresence mode="wait">
-            {!selectedPlant ? (
-              <motion.div
-                key="empty"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                className="glass sticky top-40 flex h-[500px] flex-col items-center justify-center rounded-[28px] px-8 text-center"
-              >
-                <div className="relative mb-6">
-                  <div className="absolute -inset-4 rounded-full bg-[#a7c98a]/10 blur-xl animate-pulse" />
-                  <div className="glass relative grid h-16 w-16 place-items-center rounded-2xl">
-                    <ScanLine className="h-7 w-7 text-[#a7c98a]/50" />
-                  </div>
-                </div>
-                <h3 className="text-xl font-medium text-white" style={{ fontFamily: "Playfair Display, serif" }}>Select a Specimen</h3>
-                <p className="mt-2 text-[13px] leading-relaxed text-[#9aa79a]">
-                  Click on any plant in the clinic gallery to load its real-time care parameters and diagnostics.
-                </p>
-              </motion.div>
-            ) : (
+            {selectedPlant && (
               <motion.div
                 key={selected}
                 initial={{ opacity: 0, x: 24 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -12 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="glass-strong sticky top-40 rounded-[28px] p-6"
+                className="glass-strong rounded-[20px] p-4 max-w-sm"
               >
-                <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                  <h3 className="text-xl text-white" style={{ fontFamily: "Playfair Display, serif", fontWeight: 600 }}>Specimen Parameters</h3>
-                  <div className="flex items-center gap-2">
+                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                  <h3 className="text-md text-white" style={{ fontFamily: "Playfair Display, serif", fontWeight: 600 }}>Specimen Parameters</h3>
+                  <div className="flex items-center gap-1.5">
                     <motion.button
                       whileHover={{ scale: 1.1, x: 2 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={() => setSelected(null)}
-                      className="grid h-10 w-10 place-items-center rounded-full bg-white/5 ring-1 ring-white/10 text-[#9aa79a] transition-colors hover:bg-white/10 hover:text-white"
+                      className="grid h-7 w-7 place-items-center rounded-full bg-white/5 ring-1 ring-white/10 text-[#9aa79a] transition-colors hover:bg-white/10 hover:text-white"
                       title="Clear selection"
                     >
-                      <ArrowRight className="h-4 w-4" />
+                      <ArrowRight className="h-3 w-3" />
                     </motion.button>
-                    <span className="grid h-10 w-10 place-items-center rounded-full bg-[#a7c98a]/15 ring-1 ring-[#a7c98a]/30">
-                      <ScanLine className="h-4 w-4 text-[#a7c98a]" />
+                    <span className="grid h-7 w-7 place-items-center rounded-full bg-[#a7c98a]/15 ring-1 ring-[#a7c98a]/30">
+                      <ScanLine className="h-3.5 w-3.5 text-[#a7c98a]" />
                     </span>
                   </div>
                 </div>
 
-                <div className="mt-6 space-y-6">
+                <div className="mt-3 space-y-3">
                   <div>
-                    <div className="flex justify-between text-[12px] font-medium text-[#f0f3ea]">
-                      <span className="flex items-center gap-1.5"><Droplets className="h-3.5 w-3.5" /> Water Interval Optimizer</span>
-                      <span className="text-[#a7c98a]">{waterInterval} Days</span>
+                    <div className="flex justify-between text-[10.5px] font-medium text-[#f0f3ea]">
+                      <span className="flex items-center gap-1"><Droplets className="h-3 w-3" /> Water Optimizer</span>
+                      <span className="text-[#a7c98a] font-bold">{waterInterval} Days</span>
                     </div>
                     <input 
                       type="range" 
@@ -856,63 +897,62 @@ function CareGuidePage({ onNavigate }: CareGuidePageProps) {
                       max="30" 
                       value={waterInterval}
                       onChange={(e) => setWaterInterval(parseInt(e.target.value))}
-                      className="mt-3 w-full accent-[#a7c98a] bg-white/10 h-1 rounded-full cursor-pointer"
+                      className="mt-1.5 w-full accent-[#a7c98a] bg-white/10 h-1 rounded-full cursor-pointer"
                     />
-                    <p className="mt-3 flex items-start gap-2 text-[11px] leading-relaxed text-[#9aa79a]">
-                      <span className="mt-0.5 grid h-3.5 w-3.5 place-items-center rounded-full bg-[#a7c98a]/20 text-[#a7c98a] shrink-0">
-                        <Check className="h-2 w-2 stroke-[4]" />
+                    <p className="mt-1.5 flex items-start gap-1 text-[9.5px] leading-relaxed text-[#9aa79a]">
+                      <span className="mt-0.5 grid h-2.5 w-2.5 place-items-center rounded-full bg-[#a7c98a]/20 text-[#a7c98a] shrink-0">
+                        <Check className="h-1 w-1 stroke-[4]" />
                       </span>
-                      Optimal Hydration Rhythm: Safe transpiration matching organic soil porosity.
+                      Hydration Rhythm: Safe transpiration match.
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="rounded-2xl bg-white/[0.03] p-4 ring-1 ring-white/10">
-                      <div className="flex items-center gap-2 text-[11px] font-bold tracking-widest text-[#a7c98a]">
-                        <SunMedium className="h-3 w-3" /> LIGHT REQUIREMENT
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="rounded-lg bg-white/[0.02] p-2.5 ring-1 ring-white/5">
+                      <div className="flex items-center gap-1 text-[8.5px] font-bold tracking-widest text-[#a7c98a]">
+                        <SunMedium className="h-2 w-2" /> LIGHT NEED
                       </div>
-                      <p className="mt-2 text-[12px] leading-relaxed text-[#9aa79a]">
-                        Highly adaptable. Tolerates dark corners but thrives in bright indirect light.
+                      <p className="mt-0.5 text-[10px] leading-snug text-[#9aa79a]">
+                        Adaptable. Tolerates shade, prefers indirect sun.
                       </p>
                     </div>
-                    <div className="rounded-2xl bg-white/[0.03] p-4 ring-1 ring-white/10">
-                      <div className={`flex items-center gap-2 text-[11px] font-bold tracking-widest ${selectedPlant.category.includes("Therapeutic") ? "text-[#a7c98a]" : "text-amber-300"}`}>
-                        <AlertCircle className="h-3 w-3" /> PET SAFE ALERT
+                    <div className="rounded-lg bg-white/[0.02] p-2.5 ring-1 ring-white/5">
+                      <div className={`flex items-center gap-1 text-[8.5px] font-bold tracking-widest ${selectedPlant.category.includes("Therapeutic") ? "text-[#a7c98a]" : "text-amber-300"}`}>
+                        <AlertCircle className="h-2 w-2" /> PET SAFETY
                       </div>
-                      <p className="mt-2 text-[12px] leading-relaxed text-[#9aa79a]">
-                        {selectedPlant.category.includes("Therapeutic") ? "Pet friendly. Non-toxic." : "Mildly toxic to pets. Keep away from chewing pets."}
+                      <p className="mt-0.5 text-[10px] leading-snug text-[#9aa79a]">
+                        {selectedPlant.category.includes("Therapeutic") ? "Pet safe. Non-toxic." : "Mildly toxic. Keep away from pets."}
                       </p>
                     </div>
                   </div>
 
-                  <div className="border-t border-white/5 pt-6">
-                    <div className="flex items-center gap-2 text-[13px] font-semibold text-white">
-                      <MessageCircle className="h-4 w-4 text-[#a7c98a]" /> Leaf Clinic Diagnostic
+                  <div className="border-t border-white/5 pt-3">
+                    <div className="flex items-center gap-1 text-[11px] font-semibold text-white">
+                      <MessageCircle className="h-3 w-3 text-[#a7c98a]" /> Leaf Clinic Diagnostic
                     </div>
-                    <div className="mt-3 flex flex-wrap gap-2">
+                    <div className="mt-1.5 flex flex-wrap gap-1">
                       {["Wrinkly Upright Leaves", "Soft Mushy Stems"].map(tag => (
-                        <button key={tag} className="rounded-full bg-white/5 px-3 py-1.5 text-[11px] text-[#d8e0d2] ring-1 ring-white/10 transition-colors hover:bg-white/10">
+                        <button key={tag} className="rounded-full bg-white/5 px-2 py-0.5 text-[9.5px] text-[#d8e0d2] ring-1 ring-white/10 transition-colors hover:bg-white/10">
                           {tag}
                         </button>
                       ))}
                     </div>
-                    <div className="mt-4 rounded-2xl bg-white/[0.02] py-8 text-center ring-1 ring-white/5 border border-dashed border-white/10">
-                      <CircleHelp className="mx-auto h-6 w-6 text-[#9aa79a]/40" />
-                      <p className="mt-2 text-[11px] italic text-[#9aa79a]">Select a symptom to run real-time botanical troubleshooting.</p>
-                    </div>
+                    <p className="mt-2 text-[9.5px] italic text-[#9aa79a] text-center">
+                      Select symptom to troubleshoot.
+                    </p>
                   </div>
 
-                  <div className="flex items-center justify-between border-t border-white/10 pt-6">
+                  <div className="flex items-center justify-between border-t border-white/10 pt-3">
                     <div>
-                      <p className="text-[10px] tracking-widest text-[#9aa79a] uppercase">Live Specimen Price</p>
-                      <p className="mt-1 text-2xl font-bold text-white">{selectedPlant.price}.00</p>
+                      <p className="text-[8.5px] tracking-widest text-[#9aa79a] uppercase">Specimen Price</p>
+                      <p className="mt-0.5 text-lg font-bold text-white">{selectedPlant.price}.00</p>
                     </div>
                     <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="flex items-center gap-2 rounded-full bg-[#a7c98a] px-6 py-3 text-[14px] font-bold text-[#07110d] shadow-[0_14px_40px_rgba(167,201,138,0.3)]"
+                      whileHover={{ scale: 1.04 }}
+                      whileTap={{ scale: 0.96 }}
+                      className="flex items-center gap-1 rounded-full bg-[#a7c98a] px-3.5 py-1.5 text-[11px] font-bold text-[#07110d] shadow-[0_8px_24px_rgba(167,201,138,0.2)]"
                     >
-                      <ShoppingCart className="h-4 w-4" /> Purchase Specimen
+                      <ShoppingCart className="h-3 w-3" /> Purchase Specimen
                     </motion.button>
                   </div>
                 </div>
@@ -1141,15 +1181,15 @@ function CommunityPage({ onNavigate }: CareGuidePageProps) {
             )}
           </div>
         </div>
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-5 lg:sticky lg:top-24 lg:self-start">
           <motion.div
             initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
-            className="glass-strong sticky top-40 rounded-[28px] p-6"
+            className="glass-strong rounded-[20px] p-4 max-w-sm"
           >
-            <h3 className="text-2xl text-white" style={{ fontFamily: "Playfair Display, serif", fontWeight: 600 }}>Botanical Rooms</h3>
-            <div className="mt-6 space-y-2">
+            <h3 className="text-lg text-white" style={{ fontFamily: "Playfair Display, serif", fontWeight: 600 }}>Botanical Rooms</h3>
+            <div className="mt-3 space-y-1">
               {ROOMS.map((room) => {
                 const RoomIcon = room.icon;
                 const active = activeRoom === room.name;
@@ -1157,18 +1197,18 @@ function CommunityPage({ onNavigate }: CareGuidePageProps) {
                   <motion.button
                     key={room.name}
                     onClick={() => setActiveRoom(room.name)}
-                    whileHover={{ x: 4 }}
+                    whileHover={{ x: 3 }}
                     whileTap={{ scale: 0.98 }}
-                    className={`flex w-full items-center gap-4 rounded-2xl p-4 text-left transition-all ${
+                    className={`flex w-full items-center gap-3 rounded-xl p-2.5 text-left transition-all ${
                       active ? "bg-[#a7c98a]/10 ring-1 ring-[#a7c98a]/30" : "hover:bg-white/5"
                     }`}
                   >
-                    <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full ${active ? "bg-[#a7c98a] text-[#07110d]" : "bg-white/5 text-[#9aa79a]"}`}>
-                      <RoomIcon className="h-4 w-4" />
+                    <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-full ${active ? "bg-[#a7c98a] text-[#07110d]" : "bg-white/5 text-[#9aa79a]"}`}>
+                      <RoomIcon className="h-3 w-3" />
                     </span>
                     <div>
-                      <p className={`text-[14px] font-semibold ${active ? "text-white" : "text-[#d8e0d2]"}`}>{room.name}</p>
-                      <p className="text-[12px] text-[#9aa79a]">{room.desc}</p>
+                      <p className={`text-[12px] font-semibold ${active ? "text-white" : "text-[#d8e0d2]"}`}>{room.name}</p>
+                      <p className="text-[10px] text-[#9aa79a]">{room.desc}</p>
                     </div>
                   </motion.button>
                 );
@@ -1605,7 +1645,12 @@ function FAQPage({ onNavigate, config }: { config: PageConfig, onNavigate: (p: P
   const FAQ_ANSWERS: Record<string, string> = {
     "Can I add multiple rooms?": "Yes, Verdana supports multi-room tracking. You can define specific parameters (humidity, light) for each room to ensure all companions thrive.",
     "Does it work offline?": "The core tracking and care logs work offline. Community features and plant identification require a secure connection to our botanical database.",
-    "How accurate is plant ID?": "Our venation computer vision scanner is calibrated against 120,000+ specimens, providing 99.2% accuracy for houseplant identification."
+    "How accurate is plant ID?": "Our venation computer vision scanner is calibrated against 120,000+ specimens, providing 99.2% accuracy for houseplant identification.",
+    "Can I track multiple plants?": "Absolutely. You can add an unlimited number of specimens to your virtual garden and receive customized care parameters for each.",
+    "How do I set watering reminders?": "Watering reminders are automatically generated based on the plant species, local season, and room conditions. You can adjust the intervals manually in the Care Clinic.",
+    "Is my plant data private?": "Yes. Your garden setup, plant location data, and personal notes are stored locally and encrypted before any cloud backup.",
+    "What happens if I miss a watering?": "Verdana dynamically recalculates the optimal next watering date and provides recovery instructions if your specimen exhibits signs of drought stress.",
+    "Are plant diagnostics free?": "Yes, our real-time Leaf Clinic diagnostics are included in the base application. We believe expert botanical knowledge should be accessible to everyone."
   };
 
   return (
@@ -1617,8 +1662,8 @@ function FAQPage({ onNavigate, config }: { config: PageConfig, onNavigate: (p: P
       transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
       className="relative z-10 mx-auto flex min-h-screen max-w-[1400px] items-center px-5 pb-16 pt-32 md:px-10 md:pt-36"
     >
-      <div className="grid w-full items-center gap-12 lg:grid-cols-12">
-        <div className="lg:col-span-7">
+      <div className="grid w-full items-stretch gap-12 lg:grid-cols-12">
+        <div className="lg:col-span-7 flex flex-col justify-center">
           <motion.button
             whileHover={{ x: -3 }}
             whileTap={{ scale: 0.96 }}
@@ -1664,8 +1709,8 @@ function FAQPage({ onNavigate, config }: { config: PageConfig, onNavigate: (p: P
           </div>
         </div>
 
-        <div className="lg:col-span-5">
-          <motion.div initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.22 }} className="glass-strong relative overflow-hidden rounded-[28px] p-6 sm:p-8">
+        <div className="lg:col-span-5 h-full">
+          <motion.div initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.22 }} className="glass-strong relative overflow-hidden rounded-[28px] p-6 sm:p-8 h-full flex flex-col">
             <h3 className="text-2xl text-white mb-6" style={{ fontFamily: "Playfair Display, serif", fontWeight: 600 }}>{config.panelTitle}</h3>
             <div className="space-y-3">
               {config.panelRows.map((row, index) => {
@@ -1692,7 +1737,7 @@ function FAQPage({ onNavigate, config }: { config: PageConfig, onNavigate: (p: P
                 );
               })}
             </div>
-            <div className="mt-8 border-t border-white/10 pt-6">
+            <div className="mt-auto border-t border-white/10 pt-6">
               <button className="w-full rounded-full bg-[#a7c98a] py-3 text-[13px] font-bold text-[#07110d] transition-transform hover:scale-[1.02]">
                 Contact Support
               </button>
@@ -1732,8 +1777,8 @@ function IdentifyPage({ onNavigate, config }: { config: PageConfig, onNavigate: 
       transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
       className="relative z-10 mx-auto flex min-h-screen max-w-[1400px] items-center px-5 pb-16 pt-32 md:px-10 md:pt-36"
     >
-      <div className="grid w-full items-center gap-12 lg:grid-cols-12">
-        <div className="lg:col-span-7">
+      <div className="grid w-full items-stretch gap-12 lg:grid-cols-12">
+        <div className="lg:col-span-7 flex flex-col justify-center">
           <motion.button
             whileHover={{ x: -3 }}
             whileTap={{ scale: 0.96 }}
@@ -1807,11 +1852,11 @@ function IdentifyPage({ onNavigate, config }: { config: PageConfig, onNavigate: 
           </div>
         </div>
 
-        <div className="lg:col-span-5">
-          <div className="glass-strong rounded-[28px] p-8">
-            <h3 className="text-2xl text-white mb-8" style={{ fontFamily: "Playfair Display, serif", fontWeight: 600 }}>Select Specimen</h3>
-            <div className="space-y-4">
-              {[CARE_SPECIMENS[0], CARE_SPECIMENS[1], CARE_SPECIMENS[2]].map((plant, i) => (
+        <div className="lg:col-span-5 h-full">
+          <div className="glass-strong rounded-[28px] p-6 sm:p-8 h-full flex flex-col">
+            <h3 className="text-2xl text-white mb-6" style={{ fontFamily: "Playfair Display, serif", fontWeight: 600 }}>Select Specimen</h3>
+            <div className="space-y-3">
+              {[CARE_SPECIMENS[0], CARE_SPECIMENS[1], CARE_SPECIMENS[2], CARE_SPECIMENS[3], CARE_SPECIMENS[4], CARE_SPECIMENS[5], CARE_SPECIMENS[6]].map((plant, i) => (
                 <motion.button
                   key={plant.name}
                   onClick={() => startScan(plant)}

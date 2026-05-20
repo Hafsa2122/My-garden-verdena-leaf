@@ -78,7 +78,7 @@ export default function App() {
   }, []);
 
   return (
-    <main className="relative min-h-screen w-full overflow-x-hidden bg-[#07110d] text-[#f3f4ee]">
+    <main className="relative min-h-screen w-full bg-[#07110d] text-[#f3f4ee]">
       {/* Cinematic background */}
       <BotanicalBackground />
 
